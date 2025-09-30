@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Django Calculator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background:#f7f7f7; }
+    .calc-container { max-width: 420px; margin: auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    input, select, button { margin: 8px 0; padding: 10px; width: 100%; box-sizing: border-box; font-size: 16px; }
+    button { cursor: pointer; }
+    .result { margin-top: 12px; padding: 10px; background:#f2f8ff; border-radius:6px; }
+    .error { margin-top: 12px; padding: 10px; background:#ffecec; border-radius:6px; color:#a00; }
+  </style>
+</head>
+<body>
+  <div class="calc-container">
+    <h2>Simple Calculator</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <label>First number</label>
+      <input type="number" step="any" name="num1" placeholder="e.g. 12.5" required>
+
+      <label>Second number</label>
+      <input type="number" step="any" name="num2" placeholder="e.g. 3.14" required>
+
+      <label>Operator</label>
+      <select name="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">×</option>
+        <option value="/">÷</option>
+      </select>
+
+      <button type="submit">Calculate</button>
+    </form>
+
+    {% if result is not None %}
+      <div class="result"><strong>Result:</strong> {{ result }}</div>
+    {% endif %}
+
+    {% if error %}
+      <div class="error"><strong>{{ error }}</strong></div>
+    {% endif %}
+  </div>
+</body>
+</html>
