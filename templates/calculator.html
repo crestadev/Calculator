@@ -43,6 +43,18 @@
     {% if error %}
       <div class="error"><strong>{{ error }}</strong></div>
     {% endif %}
+
+    {% if history %}
+    <div class="result" style="margin-top:20px;">
+      <h3>History (last {{ history|length }}):</h3>
+      <ul>
+        {% for entry in history %}
+          <li>{{ entry }}</li>
+        {% endfor %}
+      </ul>
+  </div>
+      {% endif %}
+
   </div>
 </body>
 </html>

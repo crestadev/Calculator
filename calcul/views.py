@@ -30,15 +30,16 @@ def calculator(request):
             if error is None:
                 history = request.session.get("history", [])
                 history.insert(0, f"{num1} {operator} {num2} = {result}")
-                request.session["history"] = history[:10]  # keep last 10
+                request.session["history"] = history[:10] 
         except ValueError:
             error = "Invalid number input"
         except Exception as e:
             error = f"Error: {e}"
 
     history = request.session.get("history", [])
-    return render(request, "calc/calculator.html", {
+    return render(request, "calculator.html", {
         "result": result,
         "error": error,
         "history": history
     })
+
