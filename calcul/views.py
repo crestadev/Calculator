@@ -43,3 +43,17 @@ def calculator(request):
         "history": history
     })
 
+from django.shortcuts import render
+
+def calculator_view(request):
+    result = None
+
+    if request.method == "POST":
+        try:
+            expression = request.POST.get("expression")
+            result = eval(expression)  
+        except Exception:
+            result = "Error"
+
+    return render(request, "calculator.html", {"result": result})
+
