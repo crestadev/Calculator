@@ -30,7 +30,7 @@ def calculator(request):
             if error is None:
                 history = request.session.get("history", [])
                 history.insert(0, f"{num1} {operator} {num2} = {result}")
-                request.session["history"] = history[:10] 
+                request.session["history"] = history[:10]
         except ValueError:
             error = "Invalid number input"
         except Exception as e:
@@ -42,18 +42,3 @@ def calculator(request):
         "error": error,
         "history": history
     })
-
-from django.shortcuts import render
-
-def calculator_view(request):
-    result = None
-
-    if request.method == "POST":
-        try:
-            expression = request.POST.get("expression")
-            result = eval(expression)  
-        except Exception:
-            result = "Error"
-
-    return render(request, "calculator.html", {"result": result})
-
