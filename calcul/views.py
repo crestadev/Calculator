@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import math
 
 def calculator(request):
     result = None
@@ -24,12 +25,33 @@ def calculator(request):
                     error = "Error: Division by zero"
                 else:
                     result = num1 / num2
+
+            elif operator == "sqrt":
+                result = math.sqrt(num1)
+            elif operator == "pow":
+                result = math.pow(num1, num2)
+            elif operator == "log":
+                if num1 <= 0:
+                    error = "Error: log requires positive number"
+                else:
+                    result = math.log(num1, num2 if num2 != 0 else math.e)
+            elif operator == "sin":
+                result = math.sin(math.radians(num1))
+            elif operator == "cos":
+                result = math.cos(math.radians(num1))
+            elif operator == "tan":
+                result = math.tan(math.radians(num1))
             else:
                 error = "Unknown operator"
 
             if error is None:
                 history = request.session.get("history", [])
-                history.insert(0, f"{num1} {operator} {num2} = {result}")
+                if operator in ["sqrt", "sin", "cos", "tan", "log"]:
+                    history.insert(0, f"{operator}({num1}) = {result}")
+                elif operator == "pow":
+                    history.insert(0, f"{num1}^{num2} = {result}")
+                else:
+                    history.insert(0, f"{num1} {operator} {num2} = {result}")
                 request.session["history"] = history[:10]
         except ValueError:
             error = "Invalid number input"
@@ -37,7 +59,7 @@ def calculator(request):
             error = f"Error: {e}"
 
     history = request.session.get("history", [])
-    return render(request, "calculator.html", {
+    return render(request, "calcul/calculator.html", {
         "result": result,
         "error": error,
         "history": history
