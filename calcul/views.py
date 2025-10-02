@@ -59,7 +59,7 @@ def calculator(request):
             error = f"Error: {e}"
 
     history = request.session.get("history", [])
-    return render(request, "calcul/calculator.html", {
+    return render(request, "calculator.html", {
         "result": result,
         "error": error,
         "history": history
