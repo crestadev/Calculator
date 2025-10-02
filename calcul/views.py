@@ -53,7 +53,7 @@ def calculator(request):
         except Exception as e:
             error = str(e)
 
-    return render(request, "calc/calculator.html", {
+    return render(request, "calculator.html", {
         "result": result,
         "error": error,
         "history": request.session.get("history", [])

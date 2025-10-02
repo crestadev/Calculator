@@ -61,6 +61,10 @@
                     <li class="list-group-item">{{ entry }}</li>
                   {% endfor %}
                 </ul>
+                <form method="post">
+                  {% csrf_token %}
+                  <button type="submit" name="clear_history" class="btn btn-danger w-100">Clear History</button>
+                </form>
               {% endif %}
             </div>
           </div>
