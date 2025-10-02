@@ -13,7 +13,7 @@ def calculator(request):
     if request.method == "POST" and "clear_history" in request.POST:
         request.session["history"] = []
         request.session.modified = True
-        return render(request, "calc/calculator.html", {"history": []})
+        return render(request, "calculator.html", {"history": []})
 
     if request.method == "POST" and "clear_history" not in request.POST:
         try:
