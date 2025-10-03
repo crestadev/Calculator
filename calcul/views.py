@@ -14,6 +14,7 @@ def calculator(request):
     if request.method == "POST" and request.POST.get("clear_history"):
         request.session["history"] = []
         request.session.modified = True
+
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return JsonResponse({"history": []})
         return render(request, "calculator.html", {"history": []})
