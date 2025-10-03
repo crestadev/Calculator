@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import math
 
@@ -10,12 +11,14 @@ def calculator(request):
     if "history" not in request.session:
         request.session["history"] = []
 
-    if request.method == "POST" and "clear_history" in request.POST:
+    if request.method == "POST" and request.POST.get("clear_history"):
         request.session["history"] = []
         request.session.modified = True
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse({"history": []})
         return render(request, "calculator.html", {"history": []})
 
-    if request.method == "POST" and "clear_history" not in request.POST:
+    if request.method == "POST":
         try:
             num1 = float(request.POST.get("num1", 0))
             num2 = float(request.POST.get("num2", 0))
@@ -47,11 +50,18 @@ def calculator(request):
             if not error and result is not None:
                 history_entry = f"{num1} {operator} {num2} = {result}"
                 request.session["history"].append(history_entry)
-                request.session["history"] = request.session["history"][-5:]  # keep last 5
+                request.session["history"] = request.session["history"][-5:]
                 request.session.modified = True
 
         except Exception as e:
             error = str(e)
+
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse({
+                "result": result,
+                "error": error,
+                "history": request.session["history"]
+            })
 
     return render(request, "calculator.html", {
         "result": result,
