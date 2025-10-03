@@ -68,6 +68,51 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+      document.getElementById("calc-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
 
+        let response = await fetch("", {
+          method: "POST",
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+          body: formData
+        });
+
+        let data = await response.json();
+
+        document.getElementById("result-box").innerHTML = data.result !== null ? 
+          `<div class="alert alert-success"><strong>Result:</strong> ${data.result}</div>` : "";
+
+        document.getElementById("error-box").innerHTML = data.error ? 
+          `<div class="alert alert-danger">${data.error}</div>` : "";
+
+        let historyList = document.getElementById("history-list");
+        historyList.innerHTML = "";
+        data.history.forEach(entry => {
+          let li = document.createElement("li");
+          li.className = "list-group-item";
+          li.textContent = entry;
+          historyList.appendChild(li);
+        });
+      });
+
+      document.getElementById("clear-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+
+        let response = await fetch("", {
+          method: "POST",
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+          body: formData
+        });
+
+        let data = await response.json();
+
+        document.getElementById("history-list").innerHTML = "";
+        document.getElementById("result-box").innerHTML = "";
+        document.getElementById("error-box").innerHTML = "";
+      });
+    </script>
   </body>
 </html>
