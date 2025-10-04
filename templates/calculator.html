@@ -99,7 +99,7 @@
       
               if (singleOps.includes(op)) {
                   num2Input.disabled = true;
-                  num2Input.value = "";  // clear it
+                  num2Input.value = ""; 
                   num2Input.placeholder = "Not needed";
               } else {
                   num2Input.disabled = false;
@@ -110,6 +110,27 @@
           operatorSelect.addEventListener("change", toggleNum2);
           toggleNum2();
       });
+
+      const toggleButton = document.getElementById("theme-toggle");
+        const body = document.body;
+        const card = document.querySelector(".card");
+        
+        if(localStorage.getItem("darkTheme") === "true") {
+          body.classList.add("dark-theme");
+          card.classList.add("dark-theme");
+          toggleButton.textContent = " Light Mode";
+        }
+        
+        toggleButton.addEventListener("click", () => {
+          body.classList.toggle("dark-theme");
+          card.classList.toggle("dark-theme");
+        
+          const isDark = body.classList.contains("dark-theme");
+          toggleButton.textContent = isDark ? " Light Mode" : " Dark Mode";
+        
+          localStorage.setItem("darkTheme", isDark);
+        });
+        
       </script>
       
   </body>
