@@ -56,7 +56,7 @@ def calculator(request):
             if not error and result is not None:
                 history_entry = f"{num1} {operator} {num2} = {result}"
                 request.session["history"].append(history_entry)
-                request.session["history"] = request.session["history"][-5:]  # keep last 5
+                request.session["history"] = request.session["history"][-5:]  
                 request.session.modified = True
 
         except Exception as e:
