@@ -13,7 +13,7 @@
         <div class="col-md-6">
           <div class="card shadow-lg">
             <div class="card-body">
-              <h2 class="card-title text-center mb-4">Simple Calculator</h2>
+              <h2 class="card-title text-center mb-4">Calculator</h2>
 
               <form id="calc-form" method="post" class="mb-3">
                 {% csrf_token %}
@@ -69,50 +69,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      document.getElementById("calc-form").addEventListener("submit", async function(e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-
-        let response = await fetch("", {
-          method: "POST",
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-          body: formData
-        });
-
-        let data = await response.json();
-
-        document.getElementById("result-box").innerHTML = data.result !== null ? 
-          `<div class="alert alert-success"><strong>Result:</strong> ${data.result}</div>` : "";
-
-        document.getElementById("error-box").innerHTML = data.error ? 
-          `<div class="alert alert-danger">${data.error}</div>` : "";
-
-        let historyList = document.getElementById("history-list");
-        historyList.innerHTML = "";
-        data.history.forEach(entry => {
-          let li = document.createElement("li");
-          li.className = "list-group-item";
-          li.textContent = entry;
-          historyList.appendChild(li);
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+          const operatorSelect = document.querySelector("select[name='operator']");
+          const num2Input = document.querySelector("input[name='num2']");
+      
+          function toggleNum2() {
+              const op = operatorSelect.value;
+              const singleOps = ["sqrt", "sin", "cos", "tan"];
+      
+              if (singleOps.includes(op)) {
+                  num2Input.disabled = true;
+                  num2Input.value = "";  // clear it
+                  num2Input.placeholder = "Not needed";
+              } else {
+                  num2Input.disabled = false;
+                  num2Input.placeholder = "e.g. 3.14";
+              }
+          }
+      
+          operatorSelect.addEventListener("change", toggleNum2);
+          toggleNum2();
       });
-
-      document.getElementById("clear-form").addEventListener("submit", async function(e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-
-        let response = await fetch("", {
-          method: "POST",
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-          body: formData
-        });
-
-        let data = await response.json();
-
-        document.getElementById("history-list").innerHTML = "";
-        document.getElementById("result-box").innerHTML = "";
-        document.getElementById("error-box").innerHTML = "";
-      });
-    </script>
+      </script>
+      
   </body>
 </html>
