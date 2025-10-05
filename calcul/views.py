@@ -59,9 +59,15 @@ def calculator(request):
                     error = "Factorial is only defined for non-negative integers."
                  else:
                     result = math.factorial(int(num1))
+
             else:
                 error = "Invalid operator"
 
+            if result is not None and error is None:
+                result = round(result, 6)
+                if result.is_integer():
+                    result = int(result)
+                    
             if not error and result is not None:
                 history_entry = f"{num1} {operator} {num2} = {result}"
                 request.session["history"].append(history_entry)
