@@ -50,6 +50,15 @@ def calculator(request):
                 result = math.cos(math.radians(num1))
             elif operator == "tan":
                 result = math.tan(math.radians(num1))
+            elif operator == 'abs':
+                 result = abs(num1)
+            elif operator == '%':
+                 result = (num1 / 100) * num2  
+            elif operator == '!':
+                 if num1 < 0 or not float(num1).is_integer():
+                    error = "Factorial is only defined for non-negative integers."
+                 else:
+                    result = math.factorial(int(num1))
             else:
                 error = "Invalid operator"
 
