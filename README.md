@@ -14,7 +14,7 @@ It supports both basic and advanced mathematical operations with session-based h
 - AJAX support (no page reload)
 - Light/Dark mode toggle with saved preference
 - Clear history option
-- Built using Bootstrap 5 for responsive design
+- Built using Bootstrap 5 for responsive design and UI
 
 ---
 
